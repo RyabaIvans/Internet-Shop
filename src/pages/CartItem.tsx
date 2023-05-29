@@ -1,91 +1,124 @@
-import React from 'react';
-import {useDispatch} from "react-redux";
-import {decrement, increment, removeItem} from "../redux/slice/cartSlice";
+import React from "react";
+import { useDispatch } from "react-redux";
+import {
+  decrement,
+  increment,
+  ItemType,
+  removeItem,
+} from "../redux/slice/cartSlice";
 
 type PropsType = {
-    id: number,
-    title: string,
-    price: number,
-    image: string,
-    type: string,
-    size: string,
-    countItems: number,
-    param: string
-}
+  id: number;
+  title: string;
+  price: number;
+  image: string;
+  type: string;
+  size: number;
+  countItems: number;
+  param: string;
+};
 const CartItem = (props: PropsType) => {
-    const dispatch = useDispatch()
-    const onClickPlus = (id: number, type: string, size: string) => {
-        dispatch(increment({id, type, size}))
-    }
-    const onClickMinus = (id: number, type: string, size: string) => {
-        dispatch(decrement({id, type, size}))
-    }
-    const onClickRemove = (param: string) => {
-        dispatch(removeItem(param))
-    }
+  const dispatch = useDispatch();
+  const onClickPlus = (id: number, type: string, size: number) => {
+    dispatch(increment({ id, type, size } as ItemType));
+  };
+  const onClickMinus = (id: number, type: string, size: number) => {
+    dispatch(decrement({ id, type, size } as ItemType));
+  };
 
-    const disabled = () => props.countItems === 1
+  const onClickRemove = (param: string, count: number, price: number) => {
+    dispatch(removeItem({ param, count, price }));
+  };
 
-    return (
-        <div className="cart__item">
-            <div className="cart__item-img">
-                <img className="pizza-block__image"
-                     src={props.image}
-                     alt="Pizza"/>
-            </div>
-            <div className="cart__item-info">
-                <h3>{props.title}</h3>
-                <p>{props.type}, {props.size} см.</p>
-            </div>
-            <div className="cart__item-count">
-                <button disabled={disabled()} onClick={() => onClickMinus(props.id, props.type, props.size)}
-                        className="button button--outline button--circle cart__item-count-minus">
-                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
-                         xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M5.92001 3.84V5.76V8.64C5.92001 9.17016 5.49017 9.6 4.96001 9.6C4.42985 9.6 4.00001 9.17016 4.00001 8.64L4 5.76L4.00001 3.84V0.96C4.00001 0.42984 4.42985 0 4.96001 0C5.49017 0 5.92001 0.42984 5.92001 0.96V3.84Z"
-                            fill="#EB5A1E"></path>
-                        <path
-                            d="M5.75998 5.92001L3.83998 5.92001L0.959977 5.92001C0.429817 5.92001 -2.29533e-05 5.49017 -2.29301e-05 4.96001C-2.2907e-05 4.42985 0.429817 4.00001 0.959977 4.00001L3.83998 4L5.75998 4.00001L8.63998 4.00001C9.17014 4.00001 9.59998 4.42985 9.59998 4.96001C9.59998 5.49017 9.17014 5.92001 8.63998 5.92001L5.75998 5.92001Z"
-                            fill="#EB5A1E"></path>
-                    </svg>
+  const disabled = () => props.countItems === 1;
 
-                </button>
-                <b>{props.countItems}</b>
-                <div onClick={() => onClickPlus(props.id, props.type, props.size)}
-                     className="button button--outline button--circle cart__item-count-plus">
-                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
-                         xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M5.92001 3.84V5.76V8.64C5.92001 9.17016 5.49017 9.6 4.96001 9.6C4.42985 9.6 4.00001 9.17016 4.00001 8.64L4 5.76L4.00001 3.84V0.96C4.00001 0.42984 4.42985 0 4.96001 0C5.49017 0 5.92001 0.42984 5.92001 0.96V3.84Z"
-                            fill="#EB5A1E"></path>
-                        <path
-                            d="M5.75998 5.92001L3.83998 5.92001L0.959977 5.92001C0.429817 5.92001 -2.29533e-05 5.49017 -2.29301e-05 4.96001C-2.2907e-05 4.42985 0.429817 4.00001 0.959977 4.00001L3.83998 4L5.75998 4.00001L8.63998 4.00001C9.17014 4.00001 9.59998 4.42985 9.59998 4.96001C9.59998 5.49017 9.17014 5.92001 8.63998 5.92001L5.75998 5.92001Z"
-                            fill="#EB5A1E"></path>
-                    </svg>
-
-                </div>
-            </div>
-            <div className="cart__item-price">
-                <b>{props.price * props.countItems} ГРН</b>
-            </div>
-            <div onClick={() => onClickRemove(props.param)}
-                 className="cart__item-remove">
-                <div className="button button--outline button--circle">
-                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
-                         xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M5.92001 3.84V5.76V8.64C5.92001 9.17016 5.49017 9.6 4.96001 9.6C4.42985 9.6 4.00001 9.17016 4.00001 8.64L4 5.76L4.00001 3.84V0.96C4.00001 0.42984 4.42985 0 4.96001 0C5.49017 0 5.92001 0.42984 5.92001 0.96V3.84Z"
-                            fill="#EB5A1E"></path>
-                        <path
-                            d="M5.75998 5.92001L3.83998 5.92001L0.959977 5.92001C0.429817 5.92001 -2.29533e-05 5.49017 -2.29301e-05 4.96001C-2.2907e-05 4.42985 0.429817 4.00001 0.959977 4.00001L3.83998 4L5.75998 4.00001L8.63998 4.00001C9.17014 4.00001 9.59998 4.42985 9.59998 4.96001C9.59998 5.49017 9.17014 5.92001 8.63998 5.92001L5.75998 5.92001Z"
-                            fill="#EB5A1E"></path>
-                    </svg>
-
-                </div>
-            </div>
+  return (
+    <div className="cart__item">
+      <div className="cart__item-img">
+        <img className="pizza-block__image" src={props.image} alt="Pizza" />
+      </div>
+      <div className="cart__item-info">
+        <h3>{props.title}</h3>
+        <p>
+          {props.type}, {props.size} см.
+        </p>
+      </div>
+      <div className="cart__item-count">
+        <button
+          disabled={disabled()}
+          onClick={() => onClickMinus(props.id, props.type, props.size)}
+          className="button button--outline button--circle cart__item-count-minus"
+        >
+          <svg
+            width="10"
+            height="10"
+            viewBox="0 0 10 10"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M5.92001 3.84V5.76V8.64C5.92001 9.17016 5.49017 9.6 4.96001 9.6C4.42985 9.6 4.00001 9.17016 4.00001 8.64L4 5.76L4.00001 3.84V0.96C4.00001 0.42984 4.42985 0 4.96001 0C5.49017 0 5.92001 0.42984 5.92001 0.96V3.84Z"
+              fill="#EB5A1E"
+            ></path>
+            <path
+              d="M5.75998 5.92001L3.83998 5.92001L0.959977 5.92001C0.429817 5.92001 -2.29533e-05 5.49017 -2.29301e-05 4.96001C-2.2907e-05 4.42985 0.429817 4.00001 0.959977 4.00001L3.83998 4L5.75998 4.00001L8.63998 4.00001C9.17014 4.00001 9.59998 4.42985 9.59998 4.96001C9.59998 5.49017 9.17014 5.92001 8.63998 5.92001L5.75998 5.92001Z"
+              fill="#EB5A1E"
+            ></path>
+          </svg>
+        </button>
+        <b>{props.countItems}</b>
+        <div
+          onClick={() => onClickPlus(props.id, props.type, props.size)}
+          className="button button--outline button--circle cart__item-count-plus"
+        >
+          <svg
+            width="10"
+            height="10"
+            viewBox="0 0 10 10"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M5.92001 3.84V5.76V8.64C5.92001 9.17016 5.49017 9.6 4.96001 9.6C4.42985 9.6 4.00001 9.17016 4.00001 8.64L4 5.76L4.00001 3.84V0.96C4.00001 0.42984 4.42985 0 4.96001 0C5.49017 0 5.92001 0.42984 5.92001 0.96V3.84Z"
+              fill="#EB5A1E"
+            ></path>
+            <path
+              d="M5.75998 5.92001L3.83998 5.92001L0.959977 5.92001C0.429817 5.92001 -2.29533e-05 5.49017 -2.29301e-05 4.96001C-2.2907e-05 4.42985 0.429817 4.00001 0.959977 4.00001L3.83998 4L5.75998 4.00001L8.63998 4.00001C9.17014 4.00001 9.59998 4.42985 9.59998 4.96001C9.59998 5.49017 9.17014 5.92001 8.63998 5.92001L5.75998 5.92001Z"
+              fill="#EB5A1E"
+            ></path>
+          </svg>
         </div>
-    );
+      </div>
+      <div className="cart__item-price">
+        <b>{props.price * props.countItems} ГРН</b>
+      </div>
+      <div
+        onClick={() =>
+          onClickRemove(props.param, props.countItems, props.price)
+        }
+        className="cart__item-remove"
+      >
+        <div className="button button--outline button--circle">
+          <svg
+            width="10"
+            height="10"
+            viewBox="0 0 10 10"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M5.92001 3.84V5.76V8.64C5.92001 9.17016 5.49017 9.6 4.96001 9.6C4.42985 9.6 4.00001 9.17016 4.00001 8.64L4 5.76L4.00001 3.84V0.96C4.00001 0.42984 4.42985 0 4.96001 0C5.49017 0 5.92001 0.42984 5.92001 0.96V3.84Z"
+              fill="#EB5A1E"
+            ></path>
+            <path
+              d="M5.75998 5.92001L3.83998 5.92001L0.959977 5.92001C0.429817 5.92001 -2.29533e-05 5.49017 -2.29301e-05 4.96001C-2.2907e-05 4.42985 0.429817 4.00001 0.959977 4.00001L3.83998 4L5.75998 4.00001L8.63998 4.00001C9.17014 4.00001 9.59998 4.42985 9.59998 4.96001C9.59998 5.49017 9.17014 5.92001 8.63998 5.92001L5.75998 5.92001Z"
+              fill="#EB5A1E"
+            ></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default CartItem;

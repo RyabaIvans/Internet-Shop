@@ -2,8 +2,13 @@ import React, {useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {setSort} from "../redux/slice/filterSlice";
 
+export type sortArrayType = {
+    name: string,
+    sortProperty: string
+}
 
-export const sortArray = [
+
+export const sortArray: sortArrayType[] = [
     {name: 'популярности', sortProperty: 'rating'},
     {name: 'цене', sortProperty: 'price'},
     {name: 'алфавиту', sortProperty: 'title'}
@@ -14,8 +19,8 @@ function Sort() {
     const dispatch = useDispatch()
     const sort: any = useSelector<any>(state => state.filterSlice.sort)
     const [isVisible, setIsVisible] = useState(false)
-    const sotrRef = useRef<any>()
-    const hideSelectHundler = (param: object) => {
+    const sotrRef = useRef(null)
+    const hideSelectHundler = (param: sortArrayType) => {
         dispatch(setSort(param))
         setIsVisible(!isVisible)
     }

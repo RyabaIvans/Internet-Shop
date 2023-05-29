@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import {Route, Routes} from "react-router-dom";
 import Cart from "./pages/Cart";
+import ProductCard from "./pages/ProductCard";
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
                     <Routes>
                         <Route path="/" element={<Home/>}></Route>
                         <Route path="/cart" element={<Cart/>}></Route>
+                        <Route path="/product/:id" element={<ProductCard/>}></Route>
                         <Route path="*" element={<NotFound/>}></Route>
                     </Routes>
                     {/*<Home/>*/}
